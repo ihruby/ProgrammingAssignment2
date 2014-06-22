@@ -44,13 +44,18 @@ makeCacheMatrix <- function(x = matrix()) {
 ## argument must be a cacheMatrix (as created with the makeCacheMatrix function)
 
 cacheSolve <- function(x, ...) {
+  #get and check if the cMatrix already has an inverse calculated
   inv_value <- x$getinv()
   if(!is.null(inv_value)) {
     message("getting cached data")
     return(inv_value)
   }
+  
+  # didn't find a cached value so get the real data and calculate.
   data <- x$get()
   inv_value <- solve(data, ...)
+  
+  # set cached value for next time
   x$setinv(inv_value)
   inv_value
 }
